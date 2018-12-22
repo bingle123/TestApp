@@ -3,6 +3,7 @@ from blueking.component.shortcuts import get_client_by_request
 from common.log import logger
 from models import Task
 import base64
+import celery_tasks
 
 def get_business(request):
     """
@@ -124,6 +125,10 @@ def execute_script(request):
             "ip_list":ip_list
         }
         result = client.job.fast_execute_script(param)
+        if result.get("result"):
+            job_instance_id = result.get("data").get("job_instance_id")
+            ## 获取job_instance_id后启动一个轮询的celery task查询任务状态，执行完成后入库
+            celery_tasks.execute_task(request,job_instance_id)
         print "execute_script param"
         print param
         print "execute_script result"
