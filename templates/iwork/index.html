@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+    <!-- 若您需要使用Kendo UI Professional，请联系版权人获得合法的授权或许可。 -->
+    <!-- Bootstrap css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet">
+    <!-- kendo ui css -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.common.min.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/styles/kendo.default.min.css" rel="stylesheet">
+    <!-- font-awesome -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/assets/fontawesome/css/font-awesome.css" rel="stylesheet">
+    <!--蓝鲸提供的公用样式库 -->
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+    <link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk_pack.css" rel="stylesheet">
+    <!-- 如果要使用Bootstrap的js插件，必须先调入jQuery -->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+    <script language="javascript" src="${STATIC_URL}js/jquery.base64.js"></script>
+    <!-- 包括所有bootstrap的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/js/bootstrap.min.js"></script>
+    <!-- 包括所有kendoui的js插件或者可以根据需要使用的js插件调用　-->
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/kendoui-2015.2.624/js/kendo.all.min.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/assets/echarts-2.0/echarts-all.js"></script>
+    <script src="https://magicbox.bk.tencent.com/static_api/v3/bk/js/bk.js"></script>
+    <!-- 数据埋点统计 -->
+    <script src="http://magicbox.bk.tencent.com/static_api/analysis.js"></script>
+    <!-- 以下两个插件用于在IE8以及以下版本浏览器支持HTML5元素和媒体查询，如果不需要用可以移除 -->
+    <!--[if lt IE 9]><script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/html5shiv.min.js"></script><script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/respond.min.js"></script><![endif]-->
+</head>
+
+<body class="bg-white" data-bg-color="bg-white">
+    <div class="king-page-box">
+        <div class="king-layout1-header">
+            <nav class="">
+                <div style="overflow:hidden; z-index: inherit;" class="navbar king-horizontal-nav1  f14">
+                    <div class="navbar-container">
+                        <div class="navbar-header pull-left">
+                            <a class="navbar-brand" href="javascript:;">
+                                <img src="https://magicbox.bk.tencent.com/static_api/v3/bk/images/logo.png" class="logo"> </a>
+                        </div>
+                        <ul class="nav navbar-nav pull-left m0">
+                            <li class="active"><a href="javascript:void(0);">首页</a></li>
+                            <li><a href="javascript:void(0);">执行记录</a></li>
+                        </ul>
+                        <div class="navbar-header pull-right">
+                            <ul class="nav">
+                                <li class="user-info">
+                                    <a href="javascript:;">
+                                        <img class="img-rounded" src="https://magicbox.bk.tencent.com/static_api/v3/components/horizontal_nav1/images/avatar.png">
+                                        <span>admin</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+        <div class="king-layout2-main mt15" style="width:960px;">
+            <form class="form-horizontal">
+                <div class="form-group clearfix ">
+                    <label class="col-sm-3 control-label bk-lh30 pt0">选择业务：</label>
+                    <div class="col-sm-9">
+                        <select name="" id="bus_select" class="form-control bk-valign-top" onchange="onSelectBus">
+                        </select>
+                        <!-- 设置面板Start -->
+                        <template id="header_tpl_options">
+                            <option value="#bk_biz_id#">#bk_biz_name#</option>
+                        </template>
+                        <!-- 设置面板End -->
+                    </div>
+                </div>
+                <div class="form-group clearfix ">
+                    <label class="col-sm-3 control-label bk-lh30 pt0">任务类型：</label>
+                    <div class="col-sm-9">
+                        <select name="" id="task_select" class="form-control bk-valign-top">
+                        </select>
+                        <!-- 设置面板Start -->
+                        <template id="header_tpl_task">
+                            <option value="#task_id#">#task_name#</option>
+                        </template>
+                        <!-- 设置面板End -->
+                    </div>
+                </div>
+                <div class="form-group clearfix ">
+                    <label class="col-sm-3 control-label bk-lh30 pt0">脚本参数：</label>
+                    <div class="col-sm-9">
+                        <input type="text" class="form-control bk-valign-top" id="script_content" placeholder="提示信息"> </div>
+                </div>
+                <div class="form-group clearfix">
+                    <div class="col-sm-9 col-sm-offset-3">
+                        <button type="button" class="king-btn mr10  king-success" id="btn_execute">执行</button>
+                        <button type="button" class="king-btn king-default ">取消</button>
+                    </div>
+                </div>
+                <div class="king-block king-block-bordered king-block-themed mb0">
+                    <div class="king-block-header king-info">
+                        <ul class="king-block-options">
+                            <li>
+                                <!-- <button type="button"><i class="fa fa-cog"></i></button> -->
+                            </li>
+                        </ul>
+                        <h3 class="king-block-title">主机列表</h3>
+                    </div>
+                    <div class="king-block-content">
+                        <table id="table_host" class="table mb0 pr15 ranger-box ">
+                            <thead>
+                                <tr>
+                                    <th style="width: 20px;">#</th>
+                                    <th style="width: 100px;">序号</th>
+                                    <th style="width: 20%;">主机名称</th>
+                                    <th style="width: 20%;">内网ip</th>
+                                    <th style="width: 20%;">操作系统</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            </tbody>
+                        </table>
+                        <!-- 设置面板Start -->
+                        <template id="tpl_host">
+                            <tr>
+                                <td style="width: 100px;"><input type="checkbox" id="chk_#bk_host_id#" value="#bk_host_innerip#"/></td>
+                                <td style="width: 20%;">#seq#</td>
+                                <td style="width: 20%;">#bk_host_name#</td>
+                                <td style="width: 20%;">#bk_host_innerip#</td>
+                                <td style="width: 20%;">#bk_os_name#</td>
+                            </tr>
+                        </template>
+                        <!-- 设置面板End -->
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <script>
+        var all_host;
+        function renderTpl(str, cfg) {
+            var re = /(#(.+?)#)/g;
+
+            return str.replace(re, function() {
+                var val = cfg[arguments[2]]+'';
+                if(typeof val == 'undefined') {
+                    val = '';
+                }
+                return val;
+            });
+        }
+        $(function(){
+                // 异步请求后台数据
+                $.ajax({
+                    url: '${SITE_URL}get_bus',
+                    type: 'GET',
+                    success: function(res){
+                        var _html = ' ';
+                        console.log(res);
+                        if(res.code ==0) {
+                            var list = res.data.info;
+                            var tpl = $('#header_tpl_options').html();
+                            for (var i = 0, len = list.length; i < len; i++) {
+                                var item = list[i];
+                                _html += renderTpl(tpl, item)
+                            }
+                            $('#bus_select').html(_html);
+                            onSelectBus();
+                        }
+                    }
+                });
+
+                $.ajax({
+                    url: '${SITE_URL}get_task',
+                    type: 'GET',
+                    success: function(res){
+                        var _html = ' ';
+                        console.log(res);
+                        if(res.code ==0) {
+                            var list = res.data;
+                            var tpl = $('#header_tpl_task').html();
+                            for (var i = 0, len = list.length; i < len; i++) {
+                                var item = list[i];
+                                _html += renderTpl(tpl, item)
+                            }
+                            $('#task_select').html(_html);
+                        }
+                    }
+                });
+
+            });
+        function onSelectBus( ){
+            $.ajax({
+                url: '${SITE_URL}get_host/?bk_biz_id='+$('#bus_select').val(),
+                type: 'GET',
+                success: function(res){
+                    console.log(res)
+                    if(res.code == 0){
+                        var _html = ' ';
+                        var list = res.data.info;
+                        var tpl = $('#tpl_host').html();
+                        for (var i=0,len=list.length; i < len; i++){
+                            var item = list[i];
+                            item.seq = i+1;
+                            item.bk_host_name = item.host.bk_host_name
+                            item.bk_host_innerip = item.host.bk_host_innerip
+                            item.bk_os_name = item.host.bk_os_name
+                            item.bk_host_id = item.host.bk_host_id
+                            _html += renderTpl(tpl, item)
+                        }
+                        $('#table_host tbody').html(_html);
+                        all_host = list;
+                    }
+                }
+            });
+        }
+        $('#bus_select').bind('change',onSelectBus);
+        function onExecute( ){
+            var ip_list = [];
+            for(i = 0;i <all_host.length;i++){
+                var item = all_host[i];
+                if( $('#chk_'+item.bk_host_id).is(":checked") ){
+                    ip_list.push(item.bk_host_innerip)
+                }
+            }
+            if(ip_list.length == 0){
+                alert("not select!")
+            }else if($("#script_content").val() ==""||$("#script_content").val() ==null) {
+                alert("script is empty!")
+            }else{
+                var encoded_ips=$.base64.encode(ip_list.join(","));
+                var encoded_script= $.base64.encode($("#script_content").val());
+                var bk_biz_id = $('#bus_select').val();
+                alert(bk_biz_id);
+                $.ajax({
+                    url: '${SITE_URL}execute_script/?encoded_ips='+encoded_ips+"&encoded_script="+encoded_script+"&bk_biz_id="+bk_biz_id,
+                    type: 'GET',
+                    success: function(res){
+                        console.log(res)
+                    }
+                });
+
+            }
+        }
+        $("#btn_execute").bind('click',onExecute)
+    </script>
+</body>
+
+</html>
